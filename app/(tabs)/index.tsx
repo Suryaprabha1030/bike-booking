@@ -1,98 +1,132 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import DisplayCard from "../components/DisplayCard";
+import { getDashboardData, QuickActionsdata } from "../utils/data";
+import { FlatList, View, ScrollView } from "react-native";
+import TopBar from "../components/TopBar";
+import QuickActions from "../components/QuickActions";
+import { Text } from "@react-navigation/elements";
+import RecentActivity from "../components/RecentActivity";
+import { useEffect, useState } from "react";
+import { getBikes, getBooking } from "@/api/bikeApi";
+// import { getBikes, getBooking } from "../api/bikeApi";
 
-export default function HomeScreen() {
+export default function Index() {
+  const [counts, setCounts] = useState({
+    totalBikes: 0,
+    activeBooking: 0,
+    revenue: 0,
+    maintenance: 0,
+  });
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const datas = await getBooking();
+        setCounts((prev) => ({
+          ...prev,
+          activeBooking: datas?.data?.length || 0,
+        }));
+      } catch (error) {
+        console.error("Failed to fetch bookings", error);
+      }
+    };
+
+    fetchBookings();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data: any = await getBikes();
+      setCounts((prev) => ({
+        ...prev,
+        totalBikes: data?.data?.length || 0,
+      }));
+
+      // console.log(data, "bikesData");
+    };
+
+    fetchData();
+  }, []);
+  const data = getDashboardData(counts);
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <SafeAreaView className="bg-black text-white w-full   flex gap-5 h-auto py-2 ">
+      <TopBar />
+      {/* <ScrollView
+        showsVerticalScrollIndicator={true} // scrollbar visible
+        contentContainerStyle={{ paddingBottom: 20 }}
+        className="  flex gap-5  "
+      > */}
+      <Text
+        // className="text-2xl"
+        style={{
+          color: "white",
+          fontSize: 18,
+          fontWeight: "600",
+          marginBottom: 8,
+          paddingHorizontal: 16,
+        }}
+      >
+        OverView
+      </Text>
+      <FlatList
+        data={data}
+        numColumns={2}
+        keyExtractor={(item) => item.about}
+        scrollEnabled={false}
+        columnWrapperStyle={{
+          justifyContent: "space-between",
+          marginBottom: 25,
+        }}
+        // contentContainerStyle={{ padding: 20 }}
+        className="px-5"
+        renderItem={({ item }) => (
+          <DisplayCard
+            name={item.iconName}
+            about={item.about}
+            count={item.count}
+          />
+        )}
+      />
+      <Text
+        style={{
+          color: "white",
+          fontSize: 18,
+          fontWeight: "600",
+          marginBottom: 8,
+          paddingHorizontal: 16,
+        }}
+      >
+        Quick actions
+      </Text>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <FlatList
+        data={QuickActionsdata}
+        numColumns={3}
+        keyExtractor={(item) => item.about}
+        columnWrapperStyle={{ justifyContent: "space-between" }}
+        className="px-5"
+        renderItem={({ item }) => (
+          <QuickActions
+            name={item.about}
+            iconName={item.iconName}
+            navigateTo={item.path}
+          />
+        )}
+      />
+      <Text
+        style={{
+          color: "white",
+          fontSize: 18,
+          fontWeight: "600",
+          marginTop: 8,
+          paddingHorizontal: 16,
+        }}
+      >
+        Recent Activity
+      </Text>
+      <RecentActivity />
+      <RecentActivity />
+      <RecentActivity />
+      {/* </ScrollView> */}
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});

@@ -1,24 +1,41 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+// import "./global.css";
+// import { Stack } from "expo-router";
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+// export default function Layout() {
+//   return (
+//     <Stack>
+//       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+//     </Stack>
+//   );
+// }
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import { View } from "react-native";
+import "./global.css";
+import { Stack } from "expo-router";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
+export default function Layout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <View className="flex-1 bg-black">
+      <Provider store={store}>
+        <Stack>
+          {/* <Stack.Screen name="splash" options={{ headerShown: false }} /> */}
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="addBike"
+            options={{ headerShown: false, presentation: "modal" }} // or false
+          />
+          <Stack.Screen
+            name="createBooking"
+            options={{ headerShown: false, presentation: "modal" }} // or false
+          />
+          <Stack.Screen
+            name="AddUserDetail"
+            options={{ headerShown: false, presentation: "modal" }} // or false
+          />
+        </Stack>
+      </Provider>
+    </View>
   );
 }
