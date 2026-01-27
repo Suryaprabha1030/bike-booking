@@ -41,6 +41,16 @@ export default function Index() {
         totalBikes: data?.data?.length || 0,
       }));
 
+      console.log(
+        data.data.map((d) => d.bikeStatus === "maintanance"),
+        "surya",
+      );
+      setCounts((prev) => ({
+        ...prev,
+        maintenance:
+          data.data.filter((d) => d.bikeStatus === "maintanance").length || 0,
+      }));
+
       // console.log(data, "bikesData");
     };
 

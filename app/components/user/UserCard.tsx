@@ -16,13 +16,14 @@ const UserCard = ({ data }) => {
     dispatch(
       updateAllUserFields({
         name: data.name,
-        user: data.phone,
+        user: data.user,
         address: data.address,
         proofType: data.proofType,
         proofNumber: data.proofNumber,
       }),
     );
   };
+  console.log(data, data);
   return (
     <View className="flex w-full justify-center items-center bg-black py-4">
       <View className=" rounded-xl px-3 py-1 w-[90%] bg-black/10 flex gap-3 mx-1 border border-white/10 elevation-md ">
@@ -54,7 +55,7 @@ const UserCard = ({ data }) => {
           </View>
           <View className="flex flex-col gap-1">
             <Text className="text-gray-300 text-md">Phn no</Text>
-            <Text className="text-white  text-md">{data.phone}</Text>
+            <Text className="text-white  text-md">{data.user}</Text>
           </View>
           <View className="flex flex-col gap-1">
             <Text className="text-white text-md">type of Proof</Text>

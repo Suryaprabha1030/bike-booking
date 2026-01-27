@@ -195,6 +195,9 @@ import { RootState } from "./redux/store";
 import { updateAllBookingFields, updateField } from "./redux/bookingSlice";
 import CustomDatePicker from "./components/booking/DatePicker";
 
+import TimePickerModal from "./components/booking/TimePicker";
+import TimePicker from "./components/booking/TimePicker";
+
 const CreateBooking = () => {
   const router = useRouter();
   const params = useLocalSearchParams();
@@ -211,6 +214,9 @@ const CreateBooking = () => {
   const [selectedToDate, setSelectedToDate] = useState(
     new Date().toISOString().split("T")[0],
   );
+  const [timeVisible, setTimeVisible] = useState(false);
+  const [selectedTime, setSelectedTime] = useState("9:30 AM");
+  const [selectedToTime, setSelectedToTime] = useState("3:30 PM");
 
   // const [formData, setFormData] = useState({
   //   user: "",
@@ -258,7 +264,7 @@ const CreateBooking = () => {
     if (params.mode !== "updateBooking" || !params.id) return;
     try {
       const payload = {
-        // user: bookdata.user,
+        user: formData.user,
         bikeType: formData.bikeType,
         // drop: formData.drop,
         modeOfRental: formData.modeOfRental,
@@ -273,7 +279,19 @@ const CreateBooking = () => {
           formData.amount === formData.amountPaid ? "confirmed" : "pending",
       };
       await bookingUpdate(params.bookingId, payload);
-      Alert.alert("Success", "Booking status updated successful");
+      Alert.alert("Success", "Booking status updated successful", [
+        {
+          text: "OK",
+          onPress: () =>
+            router.push({
+              pathname: "/bookings",
+              params: {
+                from: "home",
+              },
+              // ✅ IMPORTANT
+            }),
+        },
+      ]);
       // router.back();
     } catch (err) {
       Alert.alert("Error", "Booking failed");
@@ -281,7 +299,6 @@ const CreateBooking = () => {
   };
 
   const booking = async () => {
-    console.log("yes clicked");
     dispatch(updateField({ key: "booking", value: "confirmed" }));
     // 🔴 MANDATORY USER DETAIL CHECK
     console.log(userDetailAdded, "userDetailAdded");
@@ -319,7 +336,19 @@ const CreateBooking = () => {
       };
       await addBooking(formData);
       await BikeUpdate(selectedBike._id, bikePayload, selectedBike);
-      Alert.alert("Success", "Booking successful");
+      Alert.alert("Success", "Booking successful", [
+        {
+          text: "OK",
+          onPress: () =>
+            router.push({
+              pathname: "/bookings",
+              params: {
+                from: "home",
+              },
+              // ✅ IMPORTANT
+            }),
+        },
+      ]);
       router.back();
     } catch (err) {
       Alert.alert("Error", "Booking failed");
@@ -394,7 +423,7 @@ const CreateBooking = () => {
 
     fetchData();
   }, [params.mode, params.id]);
-  console.log(params.mode, "lo");
+
   return (
     <SafeAreaView className="bg-black flex-1 py-5">
       {/* HEADER */}
@@ -457,23 +486,43 @@ const CreateBooking = () => {
       <View className="flex-row px-8 mt-6 gap-2">
         <View className="w-[49%]">
           <Text className="text-lg text-white mb-2">From</Text>
-          <CustomDatePicker
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-            dataUpdate={(date) => {
-              dispatch(updateField({ key: "fromDate", value: date }));
-            }}
-          />
+
+          {formData.modeOfRental === "Hourly" ? (
+            <TimePicker
+              setTimeVisible={setTimeVisible}
+              selectedTime={selectedTime}
+              timeVisible={timeVisible}
+              setSelectedTime={setSelectedTime}
+            />
+          ) : (
+            <CustomDatePicker
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              dataUpdate={(date) => {
+                dispatch(updateField({ key: "fromDate", value: date }));
+              }}
+            />
+          )}
         </View>
         <View className="w-[49%]">
           <Text className="text-lg text-white mb-2">To</Text>
-          <CustomDatePicker
-            selectedDate={selectedToDate}
-            setSelectedDate={setSelectedToDate}
-            dataUpdate={(date) => {
-              dispatch(updateField({ key: "toDate", value: date }));
-            }}
-          />
+
+          {formData.modeOfRental === "Hourly" ? (
+            <TimePicker
+              setTimeVisible={setTimeVisible}
+              selectedTime={selectedToTime}
+              timeVisible={timeVisible}
+              setSelectedTime={setSelectedToTime}
+            />
+          ) : (
+            <CustomDatePicker
+              selectedDate={selectedToDate}
+              setSelectedDate={setSelectedToDate}
+              dataUpdate={(date) => {
+                dispatch(updateField({ key: "toDate", value: date }));
+              }}
+            />
+          )}
         </View>
       </View>
 
@@ -518,11 +567,12 @@ const CreateBooking = () => {
               dispatch(updateField({ key: "duration", value: v }));
 
               // Update amount dynamically on user input
-              const rate = Number(formData.ratePerDay || 0);
+              const rate = Number(formData.RatePerDay || 0);
               const durationNum = Number(v);
               let amount = 0;
 
               if (formData.modeOfRental === "Daily") {
+                console.log("");
                 amount = rate * durationNum;
               } else if (formData.modeOfRental === "Hourly") {
                 amount = (rate / 24) * durationNum;

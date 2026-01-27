@@ -5,7 +5,8 @@ interface userState {
   user: string;
   address: string;
   proofType: string;
-  proofNumber: string;
+  image: string;
+  // proofNumber: string;
 }
 
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
   user: "",
   address: "",
   proofType: "Select option",
-  proofNumber: "",
+  image: "",
+  // proofNumber: "",
 };
 
 const userSlice = createSlice({

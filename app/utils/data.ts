@@ -31,7 +31,7 @@ const QuickActionsdata = [
     about: "Create booking",
     path: "/createBooking",
   },
-  { iconName: "users", about: "View Customers", path: "/" },
+  { iconName: "users", about: "View Customers", path: "/customers" },
 ];
 
 const bikeMangeButton = [

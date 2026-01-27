@@ -49,10 +49,14 @@ const addBike = () => {
             onPress: () => {
               if (mode === "update") {
                 router.push({
-                  pathname: "/createBooking",
-                  params: { userAdded: "true" },
+                  pathname: "/",
+                });
+              } else {
+                router.push({
+                  pathname: "/",
                 });
               }
+
               // else → do nothing (stay on same page)
             },
           },

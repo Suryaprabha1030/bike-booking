@@ -124,7 +124,7 @@ const AddUserDetail = () => {
   const form: any = useSelector((state: RootState) => state.user);
   useEffect(() => {
     if (userNumber) {
-      dispatch(updateUserField({ key: "user", value: "userNumber" }));
+      dispatch(updateUserField({ key: "user", value: userNumber }));
     }
   }, [userNumber]);
 
@@ -141,7 +141,7 @@ const AddUserDetail = () => {
       !form.user ||
       !form.address ||
       form.proofType === "Select option" ||
-      !form.proofNumber
+      !form.image
     ) {
       Alert.alert("Error", "All fields are mandatory");
       return;
@@ -163,11 +163,16 @@ const AddUserDetail = () => {
     ]);
   };
 
-  const updateUserDetail = async (id) => {
+  const updateUserDetail = async (id: any) => {
     await UpdateUserAndBooking(id, form);
     Alert.alert("Success", "User details added", [
       {
         text: "OK",
+        onPress: () =>
+          router.push({
+            pathname: "/customers",
+            params: { userAdded: "true", mode: "addBooking" }, // ✅ IMPORTANT
+          }),
       },
     ]);
   };
@@ -220,7 +225,7 @@ const AddUserDetail = () => {
           onChangeText={(v) => update("proofNumber", v)}
           placeHolder="Enter ID number"
         /> */}
-        {/* <UploadImage imageBase64={form.imageBase64} /> */}
+        <UploadImage imageBase64={form.image} />
 
         {/* SAVE BUTTON */}
         <TouchableOpacity

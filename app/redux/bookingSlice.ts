@@ -18,6 +18,7 @@ interface BookingState {
   fromDate: string;
   toDate: string;
   amountStatus: string;
+  RatePerDay: number;
   // added to indb
 }
 
@@ -25,7 +26,7 @@ const initialState: BookingState = {
   user: "",
   bikeType: "Select option",
   // drop: "",
-  modeOfRental: "Select option",
+  modeOfRental: "Daily",
   modeOfPayment: "Select option",
   duration: "",
   amount: 0,
@@ -35,6 +36,7 @@ const initialState: BookingState = {
   fromDate: "",
   toDate: "",
   amountStatus: "",
+  RatePerDay: 0,
 };
 
 const bookingSlice = createSlice({
