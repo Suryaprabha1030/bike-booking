@@ -20,8 +20,17 @@ export default function Layout() {
     <View className="flex-1 bg-black">
       <Provider store={store}>
         <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
           {/* <Stack.Screen name="splash" options={{ headerShown: false }} /> */}
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="auth/login"
+            options={{ headerShown: false, presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="auth/signup"
+            options={{ headerShown: false, presentation: "modal" }}
+          />
           <Stack.Screen
             name="addBike"
             options={{ headerShown: false, presentation: "modal" }} // or false

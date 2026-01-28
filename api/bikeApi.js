@@ -126,3 +126,23 @@ export const getAmountAnalytics = async (type) => {
     throw err;
   }
 };
+
+export const createAdmin = async (form) => {
+  try {
+    const response = await API.post("/admin/create", form);
+    return response.data;
+  } catch (err) {
+    console.log("Axios Error:", err.response?.data || err.message);
+    throw err;
+  }
+};
+
+export const loginAdmin = async (form) => {
+  try {
+    const response = await API.post("/admin/login", form);
+    return response.data;
+  } catch (err) {
+    console.log("Axios Error:", err.response?.data || err.message);
+    throw err;
+  }
+};

@@ -6,4 +6,5 @@ export const color = {
   CardBgc: "border-[#111]",
   textbg: "bg-[#d5b60A]",
   CardBgcolor: "bg-[#111]",
+  textColor2: "text-[#d5b60A]",
 };
