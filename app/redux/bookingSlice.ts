@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface BookingState {
+  adminId: string;
   user: string;
   bikeType: string;
   // remove indb
@@ -23,6 +24,7 @@ interface BookingState {
 }
 
 const initialState: BookingState = {
+  adminId: "",
   user: "",
   bikeType: "Select option",
   // drop: "",

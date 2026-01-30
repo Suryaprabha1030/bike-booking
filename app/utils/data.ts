@@ -5,6 +5,9 @@
 //   { iconName: "construct", about: "Upcoming maintenance", count: 43 },
 // ];
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
+
 export const getDashboardData = (counts) => [
   {
     iconName: "bicycle-outline",
@@ -52,4 +55,19 @@ const bookingButton = [
   { name: "Confirm", value: "confirmed" },
 ];
 
-export { QuickActionsdata, bikeMangeButton, bookingMangeButton, bookingButton };
+const fetchadminid = async () => {
+  const adminId: any = await AsyncStorage.getItem("adminId");
+  if (!adminId) {
+    Alert.alert("Error", "Admin not logged in");
+    return;
+  }
+  return adminId;
+};
+
+export {
+  QuickActionsdata,
+  bikeMangeButton,
+  bookingMangeButton,
+  bookingButton,
+  fetchadminid,
+};

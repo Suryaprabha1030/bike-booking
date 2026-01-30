@@ -3,16 +3,19 @@ import React, { useEffect, useState } from "react";
 import TopBarBikes from "../components/bikes/TopBarBikes";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CommonButton from "../components/bikes/Button";
-import { bikeMangeButton } from "../utils/data";
+import { bikeMangeButton, fetchadminid } from "../utils/data";
 import BikesCard from "../components/bikes/BikesCard";
 import { getBikes } from "../../api/bikeApi";
 
 const bikes = () => {
   const [activeValue, setActiveValue] = useState<string | null>("");
   const [bikesData, setBikesData] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
-      const data: any = await getBikes();
+      const adminId = await fetchadminid();
+
+      const data: any = await getBikes(adminId);
       setBikesData(data?.data);
       // console.log(data, "bikesData");
     };

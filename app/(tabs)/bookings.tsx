@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TopBarBikes from "../components/bikes/TopBarBikes";
 import CommonButton from "../components/bikes/Button";
-import { bookingMangeButton } from "../utils/data";
+import { bookingMangeButton, fetchadminid } from "../utils/data";
 import BookingCard from "../components/booking/BookingCard";
 import { getBooking } from "../../api/bikeApi";
 
@@ -13,7 +13,8 @@ const bookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const datas = await getBooking();
+        const adminId = await fetchadminid();
+        const datas = await getBooking(adminId);
         setData(datas.data);
       } catch (error) {
         console.error("Failed to fetch bookings", error);

@@ -19,7 +19,7 @@ const UserCard = ({ data }) => {
         user: data.user,
         address: data.address,
         proofType: data.proofType,
-        proofNumber: data.proofNumber,
+        image: data.image,
       }),
     );
   };

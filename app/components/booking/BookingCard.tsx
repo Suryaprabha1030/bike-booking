@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { color } from "@/app/utils/color";
 import CommonButton from "../bikes/Button";
-import { bookingButton } from "@/app/utils/data";
+import { bookingButton, fetchadminid } from "@/app/utils/data";
 // import { bookingUpdate, fetchUserBooking } from "@/app/api/bikeApi";
 import { useRouter } from "expo-router";
 import { bookingUpdate } from "@/api/bikeApi";
@@ -11,10 +11,12 @@ import { bookingUpdate } from "@/api/bikeApi";
 const BookingCard = ({ name, id, status, address, amount }) => {
   const [active, setActive] = useState<string | null>("");
   const router = useRouter();
+
   const bookingUpdateStatus = async (btn) => {
     try {
+      const adminId = await fetchadminid();
       setActive(btn.value);
-      const payload = { booking: btn.value };
+      const payload = { booking: btn.value, adminId: adminId };
       await bookingUpdate(id, payload);
       Alert.alert("Success", "Booking status updated successful");
       // router.back();

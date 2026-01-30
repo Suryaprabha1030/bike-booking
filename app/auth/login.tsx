@@ -1,4 +1,11 @@
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  Pressable,
+} from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { color } from "../utils/color";
@@ -90,6 +97,15 @@ export default function AdminSignup() {
             </Text>
           </TouchableOpacity>
         </View>
+        <Pressable
+          onPress={() => {
+            router.push("/auth/signup");
+          }}
+        >
+          <Text className={`text-2xl ${color.textColor2} `}>
+            already have an account ? do login
+          </Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );

@@ -1,5 +1,6 @@
 import { getAmountAnalytics } from "@/api/bikeApi";
 import { color } from "@/app/utils/color";
+import { fetchadminid } from "@/app/utils/data";
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -21,8 +22,11 @@ const DarkApexAnalyticsChart = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await getAmountAnalytics(type);
-      setData(res);
+      const adminId = await fetchadminid();
+
+      const res = await getAmountAnalytics(type, adminId);
+
+      setData(res.data);
     } catch (err) {
       console.log(err);
     } finally {

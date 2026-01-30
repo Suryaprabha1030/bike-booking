@@ -1,5 +1,5 @@
 import { View, Text, TextInput, Alert, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UploadImage from "./components/bikes/createBike/UploadImage";
@@ -13,6 +13,8 @@ import { updateBikeField } from "./redux/bikeCreateSlice";
 import { RootState } from "./redux/store";
 import { useRoute } from "@react-navigation/native";
 import OptionDropdown from "./components/bikes/createBooking/DropDown";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { fetchadminid } from "./utils/data";
 
 const addBike = () => {
   const router = useRouter();
@@ -22,10 +24,29 @@ const addBike = () => {
   const mode = route.params?.mode;
   const id = route.params?.id; // "add" | "upd
   const form: any = useSelector((state: RootState) => state.bike);
+
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      const adminId = await fetchadminid(); // ✅ await it
+
+      if (adminId) {
+        dispatch(
+          updateBikeField({
+            key: "adminId",
+            value: adminId,
+          }),
+        );
+      }
+    };
+
+    fetchAdmin();
+  }, []);
+
   // const [text, setText] = useState("");
   const submitBike = async () => {
     try {
       const bikePayload = {
+        adminId: form.adminId,
         location: form.location,
         BikeType: form.BikeType,
         RatePerDay: form.RatePerDay,
@@ -53,7 +74,7 @@ const addBike = () => {
                 });
               } else {
                 router.push({
-                  pathname: "/",
+                  pathname: "/(tabs)",
                 });
               }
 

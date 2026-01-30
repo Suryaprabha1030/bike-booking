@@ -2,7 +2,7 @@ import axios from "axios";
 //  192.168.68.203
 // 192.168.68.170
 const API = axios.create({
-  baseURL: "http://192.168.1.5:5000/api", // 🔁 change IP
+  baseURL: "http://192.168.1.11:5000/api", // 🔁 change IP
   headers: {
     "Content-Type": "application/json",
   },
@@ -18,9 +18,10 @@ export const BikeAdd = async (bikeData) => {
   }
 };
 
-export const getBikes = async () => {
+export const getBikes = async (adminId) => {
   try {
-    const response = await API.get("/bikes/fetchAllBike");
+    console.log(adminId, "getBooking");
+    const response = await API.get(`/bikes/fetchAllBike/${adminId}`);
     return response.data;
   } catch (err) {
     console.log("Axios Error:", err.response?.data || err.message);
@@ -28,9 +29,11 @@ export const getBikes = async () => {
   }
 };
 
-export const BikeDelete = async (bikeId) => {
+export const BikeDelete = async (bikeId, adminId) => {
   try {
-    const response = await API.delete(`/bikes/${bikeId}`);
+    const response = await API.delete(`/bikes/${bikeId}`, {
+      data: { adminId },
+    });
     return response.data;
   } catch (err) {
     console.log("Axios Error:", err.response?.data || err.message);
@@ -58,15 +61,18 @@ export const addBooking = async (bookingData) => {
     throw err;
   }
 };
-export const getBooking = async () => {
+
+export const getBooking = async (adminId) => {
   try {
-    const response = await API.post("/booking/getBookings");
+    console.log(adminId, "getBooking");
+    const response = await API.get(`/booking/getBookings/${adminId}`);
     return response.data;
   } catch (err) {
     console.log("Axios Error:", err.response?.data || err.message);
     throw err;
   }
 };
+
 export const bookingUpdate = async (id, bookingData) => {
   console.log(id, bookingData, "data");
   try {
@@ -79,25 +85,27 @@ export const bookingUpdate = async (id, bookingData) => {
 };
 export const fetchUserDetails = async (userData) => {
   try {
-    const response = await API.post("/user/userDetails", userData);
+    const response = await API.post(`/user/userDetails`, userData);
     return response.data;
   } catch (err) {
     console.log("Axios Error:", err.response?.data || err.message);
     throw err;
   }
 };
-export const getFetchUserDetails = async () => {
+
+export const getFetchUserDetails = async (adminId) => {
   try {
-    const response = await API.get("/user/userDetails");
+    const response = await API.get(`/user/userDetails/${adminId}`);
     return response.data;
   } catch (err) {
     console.log("Axios Error:", err.response?.data || err.message);
     throw err;
   }
 };
-export const fetchUserBooking = async (user) => {
+
+export const fetchUserBooking = async (user, data) => {
   try {
-    const response = await API.get(`/booking/user-booking/${user}`);
+    const response = await API.post(`/booking/user-booking/${user}`, data);
     return response; // ✅ returns user + booking row
   } catch (err) {
     console.log("Axios Error:", err.response?.data || err.message);
@@ -107,7 +115,11 @@ export const fetchUserBooking = async (user) => {
 
 export const UpdateUserAndBooking = async (user, userData) => {
   try {
-    const response = await API.post(`/user/editUserDetails/${user}`, userData);
+    const response = await API.post(
+      `/user/editUserDetails/${user}`,
+      userData,
+      // 🔐 important
+    );
     return response; // ✅ returns user + booking row
   } catch (err) {
     console.log("Axios Error:", err.response?.data || err.message);
@@ -115,10 +127,11 @@ export const UpdateUserAndBooking = async (user, userData) => {
   }
 };
 
-export const getAmountAnalytics = async (type) => {
+export const getAmountAnalytics = async (type, adminId) => {
   try {
     const response = await API.get("/booking/amount-analytics", {
-      params: { type }, // 👈 this is the fix
+      params: { type, adminId },
+      // 👈 this is the fix
     });
     return response.data;
   } catch (err) {

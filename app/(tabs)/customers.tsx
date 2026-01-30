@@ -15,12 +15,15 @@ import {
 import { color } from "../utils/color";
 import TopBarBikes from "../components/bikes/TopBarBikes";
 import UserCard from "../components/user/UserCard";
+import { fetchadminid } from "../utils/data";
 
 const customers = () => {
   const [data, setData] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
-      const userData = await getFetchUserDetails();
+      const adminId = await fetchadminid();
+      const userData = await getFetchUserDetails(adminId);
       setData(userData);
     };
     fetchData();

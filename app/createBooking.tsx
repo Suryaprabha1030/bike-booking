@@ -197,6 +197,7 @@ import CustomDatePicker from "./components/booking/DatePicker";
 
 import TimePickerModal from "./components/booking/TimePicker";
 import TimePicker from "./components/booking/TimePicker";
+import { fetchadminid } from "./utils/data";
 
 const CreateBooking = () => {
   const router = useRouter();
@@ -230,11 +231,43 @@ const CreateBooking = () => {
 
   // Fetch bikes
   useEffect(() => {
-    getBikes().then((res: any) => {
+    const fetchAdmin = async () => {
+      const adminId = await fetchadminid(); // ✅ await it
+
+      if (adminId) {
+        dispatch(
+          updateField({
+            key: "adminId",
+            value: adminId,
+          }),
+        );
+      }
+    };
+
+    fetchAdmin();
+  }, []);
+  useEffect(() => {
+    const loadBikes = async () => {
+      const adminId = await fetchadminid();
+
+      if (!adminId) return;
+
+      const res: any = await getBikes(adminId);
+
       setBikesName(res?.data?.map((d: any) => d.BikeType));
       setBikesData(res?.data);
-    });
+    };
+
+    loadBikes();
   }, []);
+
+  // useEffect(() => {
+  //   const adminId = await fetchadminid();
+  //   getBikes(fetchAdmin()).then((res: any) => {
+  //     setBikesName(res?.data?.map((d: any) => d.BikeType));
+  //     setBikesData(res?.data);
+  //   });
+  // }, []);
   const onSelectBike = (bikeType: string) => {
     const bike = bikesData.find((b) => b.BikeType === bikeType);
     console.log(bike, "bike");
@@ -264,6 +297,7 @@ const CreateBooking = () => {
     if (params.mode !== "updateBooking" || !params.id) return;
     try {
       const payload = {
+        adminId: formData.adminId,
         user: formData.user,
         bikeType: formData.bikeType,
         // drop: formData.drop,
@@ -276,7 +310,9 @@ const CreateBooking = () => {
         fromDate: formData.fromDate,
         toDate: formData.toDate,
         amountStatus:
-          formData.amount === formData.amountPaid ? "confirmed" : "pending",
+          Number(formData.amount) === Number(formData.amountPaid)
+            ? "confirmed"
+            : "pending",
       };
       await bookingUpdate(params.bookingId, payload);
       Alert.alert("Success", "Booking status updated successful", [
@@ -300,6 +336,16 @@ const CreateBooking = () => {
 
   const booking = async () => {
     dispatch(updateField({ key: "booking", value: "confirmed" }));
+    dispatch(
+      updateField({
+        key: "amountStatus",
+        value:
+          Number(formData.amount) === Number(formData.amountPaid)
+            ? "confirmed"
+            : "pending",
+      }),
+    );
+
     // 🔴 MANDATORY USER DETAIL CHECK
     console.log(userDetailAdded, "userDetailAdded");
     if (!userDetailAdded) {
@@ -387,7 +433,8 @@ const CreateBooking = () => {
 
     const fetchData = async () => {
       try {
-        const res = await fetchUserBooking(params.id);
+        const adminId = await fetchadminid();
+        const res = await fetchUserBooking(params.id, { adminId });
 
         console.log("API response:", res);
 
@@ -400,6 +447,7 @@ const CreateBooking = () => {
 
         dispatch(
           updateAllBookingFields({
+            adminId: bookdata.adminId,
             user: bookdata.user,
             bikeType: bookdata.bikeType,
             // drop: bookdata.drop,

@@ -103,6 +103,7 @@ import { fetchUserDetails, UpdateUserAndBooking } from "../api/bikeApi";
 import { updateAllUserFields, updateUserField } from "./redux/UserSlice";
 import { useRoute } from "@react-navigation/native";
 import UploadImage from "./components/bikes/createBike/UploadImage";
+import { fetchadminid } from "./utils/data";
 
 const proofOptions = ["Aadhar", "Driving License", "Passport"];
 
@@ -127,6 +128,22 @@ const AddUserDetail = () => {
       dispatch(updateUserField({ key: "user", value: userNumber }));
     }
   }, [userNumber]);
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      const adminId = await fetchadminid(); // ✅ await it
+
+      if (adminId) {
+        dispatch(
+          updateUserField({
+            key: "adminId",
+            value: adminId,
+          }),
+        );
+      }
+    };
+
+    fetchAdmin();
+  }, []);
 
   const update = (key: keyof typeof form, value: string) => {
     // setForm((prev) => ({ ...prev, [key]: value }));
@@ -136,16 +153,16 @@ const AddUserDetail = () => {
   const saveUserDetails = async () => {
     console.log("surya");
     // 🔴 VALIDATION (MANDATORY)
-    if (
-      !form.name ||
-      !form.user ||
-      !form.address ||
-      form.proofType === "Select option" ||
-      !form.image
-    ) {
-      Alert.alert("Error", "All fields are mandatory");
-      return;
-    }
+    // if (
+    //   !form.name ||
+    //   !form.user ||
+    //   !form.address ||
+    //   form.proofType === "Select option" ||
+    //   !form.image
+    // ) {
+    //   Alert.alert("Error", "All fields are mandatory");
+    //   return;
+    // }
 
     // 👉 Save to backend / redux / asyncStorage if needed
     // await addUser(form)

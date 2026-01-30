@@ -8,6 +8,7 @@ import { useRouter } from "expo-router";
 import { updateAllBikeFields } from "@/app/redux/bikeCreateSlice";
 import { useDispatch } from "react-redux";
 import { BikeDelete } from "@/api/bikeApi";
+import { fetchadminid } from "@/app/utils/data";
 interface bikeCardProps {
   img: string;
   location: string;
@@ -33,7 +34,8 @@ const BikesCard = ({
   const [showView, setShowView] = useState(false);
   const deleteData = async (id) => {
     try {
-      await BikeDelete(id);
+      const adminId = await fetchadminid();
+      await BikeDelete(id, adminId);
       // call the callback to remove from list
       onDelete && onDelete(id);
     } catch (err) {

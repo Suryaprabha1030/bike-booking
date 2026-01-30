@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface bikeCreateState {
+  adminId: string;
   location: string;
   BikeType: string;
   RatePerDay: number | null;
@@ -10,6 +11,7 @@ interface bikeCreateState {
 }
 
 const initialState: bikeCreateState = {
+  adminId: "",
   location: "",
   BikeType: "",
   RatePerDay: null,
@@ -27,13 +29,13 @@ const bikeCreateSlice = createSlice({
       action: PayloadAction<{
         key: keyof bikeCreateState;
         value: string | boolean;
-      }>
+      }>,
     ) => {
       (state[action.payload.key] as any) = action.payload.value;
     },
     updateAllBikeFields: (
       state,
-      action: PayloadAction<Partial<bikeCreateState>>
+      action: PayloadAction<Partial<bikeCreateState>>,
     ) => {
       Object.assign(state, action.payload);
     },

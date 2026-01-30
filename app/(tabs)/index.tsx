@@ -1,7 +1,11 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import DisplayCard from "../components/DisplayCard";
-import { getDashboardData, QuickActionsdata } from "../utils/data";
+import {
+  fetchadminid,
+  getDashboardData,
+  QuickActionsdata,
+} from "../utils/data";
 import { FlatList, View, ScrollView } from "react-native";
 import TopBar from "../components/TopBar";
 import QuickActions from "../components/QuickActions";
@@ -21,7 +25,8 @@ export default function Index() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const datas = await getBooking();
+        const adminId = await fetchadminid();
+        const datas = await getBooking(adminId);
         setCounts((prev) => ({
           ...prev,
           activeBooking: datas?.data?.length || 0,
@@ -35,7 +40,8 @@ export default function Index() {
   }, []);
   useEffect(() => {
     const fetchData = async () => {
-      const data: any = await getBikes();
+      const adminId = await fetchadminid();
+      const data: any = await getBikes(adminId);
       setCounts((prev) => ({
         ...prev,
         totalBikes: data?.data?.length || 0,
