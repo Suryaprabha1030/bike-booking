@@ -19,10 +19,10 @@ export const getDashboardData = (counts) => [
     about: "Active booking",
     count: counts.activeBooking,
   },
-  { iconName: "currency", about: "Revenue", count: counts.revenue },
+  { iconName: "cash", about: "Revenue", count: counts.revenue },
   {
     iconName: "construct",
-    about: "Upcoming maintenance",
+    about: " maintanance",
     count: counts.maintenance,
   },
 ];

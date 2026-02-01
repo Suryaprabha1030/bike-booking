@@ -8,7 +8,7 @@ import { bookingButton, fetchadminid } from "@/app/utils/data";
 import { useRouter } from "expo-router";
 import { bookingUpdate } from "@/api/bikeApi";
 
-const BookingCard = ({ name, id, status, address, amount }) => {
+const BookingCard = ({ name, id, status, address, amount, item }) => {
   const [active, setActive] = useState<string | null>("");
   const router = useRouter();
 
@@ -16,7 +16,13 @@ const BookingCard = ({ name, id, status, address, amount }) => {
     try {
       const adminId = await fetchadminid();
       setActive(btn.value);
-      const payload = { booking: btn.value, adminId: adminId };
+
+      const payload = {
+        booking: btn.value,
+        adminId: adminId,
+        ...(btn.value === "confirmed" && { amountPaid: item.amount }),
+      };
+
       await bookingUpdate(id, payload);
       Alert.alert("Success", "Booking status updated successful");
       // router.back();
@@ -56,17 +62,17 @@ const BookingCard = ({ name, id, status, address, amount }) => {
         </View>
         <View className="flex-row gap-2 items-center">
           <Ionicons name={"bicycle-outline"} size={24} color={color.primary} />
-          <Text className="text-white">{amount}</Text>
+          <Text className="text-white">{item.amountPaid}</Text>
         </View>
         <View className="flex-row gap-2 items-center">
           <Ionicons name={"calendar"} size={24} color={color.primary} />
           <Text className="text-white">
-            2024-07-20 9:30 am - 2024-08-20 9:30 am
+            {item.fromDate} to {item.toDate}
           </Text>
         </View>
         <View className="flex-row gap-2 items-center">
-          <Ionicons name={"location"} size={24} color={color.primary} />
-          <Text className="text-white">{address}</Text>
+          {/* <Ionicons name={"location"} size={24} color={color.primary} /> */}
+          <Text className="text-white">{item.modeOfRental}</Text>
         </View>
         <View className="flex flex-row gap-5 justify-between items-center py-2">
           <View className="flex flex-row gap-1  py-2">

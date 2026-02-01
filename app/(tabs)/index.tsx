@@ -64,71 +64,74 @@ export default function Index() {
   }, []);
   const data = getDashboardData(counts);
   return (
-    <SafeAreaView className="bg-black text-white w-full   flex gap-5 h-auto py-2 ">
+    <SafeAreaView className="bg-black gap-5 flex-1 ">
       <TopBar />
       {/* <ScrollView
         showsVerticalScrollIndicator={true} // scrollbar visible
         contentContainerStyle={{ paddingBottom: 20 }}
         className="  flex gap-5  "
       > */}
-      <Text
-        // className="text-2xl"
-        style={{
-          color: "white",
-          fontSize: 18,
-          fontWeight: "600",
-          marginBottom: 8,
-          paddingHorizontal: 16,
-        }}
-      >
-        OverView
-      </Text>
-      <FlatList
-        data={data}
-        numColumns={2}
-        keyExtractor={(item) => item.about}
-        scrollEnabled={false}
-        columnWrapperStyle={{
-          justifyContent: "space-between",
-          marginBottom: 25,
-        }}
-        // contentContainerStyle={{ padding: 20 }}
-        className="px-5"
-        renderItem={({ item }) => (
-          <DisplayCard
-            name={item.iconName}
-            about={item.about}
-            count={item.count}
-          />
-        )}
-      />
-      <Text
-        style={{
-          color: "white",
-          fontSize: 18,
-          fontWeight: "600",
-          marginBottom: 8,
-          paddingHorizontal: 16,
-        }}
-      >
-        Quick actions
-      </Text>
+      <View>
+        <Text
+          style={{
+            color: "white",
+            fontSize: 18,
+            fontWeight: "600",
+            marginBottom: 8,
+            paddingHorizontal: 16,
+          }}
+        >
+          OverView
+        </Text>
+        <FlatList
+          data={data}
+          numColumns={2}
+          keyExtractor={(item) => item.about}
+          scrollEnabled={false}
+          columnWrapperStyle={{
+            justifyContent: "space-between",
+            marginBottom: 25,
+          }}
+          // contentContainerStyle={{ padding: 20 }}
+          className="px-5"
+          renderItem={({ item }) => (
+            <DisplayCard
+              name={item.iconName}
+              about={item.about}
+              count={item.count}
+            />
+          )}
+        />
+      </View>
+      <View>
+        <Text
+          style={{
+            color: "white",
+            fontSize: 18,
+            fontWeight: "600",
+            marginBottom: 8,
+            paddingHorizontal: 16,
+          }}
+        >
+          Quick Actions
+        </Text>
 
-      <FlatList
-        data={QuickActionsdata}
-        numColumns={3}
-        keyExtractor={(item) => item.about}
-        columnWrapperStyle={{ justifyContent: "space-between" }}
-        className="px-5"
-        renderItem={({ item }) => (
-          <QuickActions
-            name={item.about}
-            iconName={item.iconName}
-            navigateTo={item.path}
-          />
-        )}
-      />
-      <Text
+        <FlatList
+          data={QuickActionsdata}
+          numColumns={3}
+          keyExtractor={(item) => item.about}
+          columnWrapperStyle={{ justifyContent: "space-between" }}
+          className="px-5"
+          renderItem={({ item }) => (
+            <QuickActions
+              name={item.about}
+              iconName={item.iconName}
+              navigateTo={item.path}
+            />
+          )}
+        />
+      </View>
+      {/* <Text
         style={{
           color: "white",
           fontSize: 18,
@@ -138,10 +141,10 @@ export default function Index() {
         }}
       >
         Recent Activity
-      </Text>
+      </Text> */}
+      {/* <RecentActivity />
       <RecentActivity />
-      <RecentActivity />
-      <RecentActivity />
+      <RecentActivity /> */}
       {/* </ScrollView> */}
     </SafeAreaView>
   );

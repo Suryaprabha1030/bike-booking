@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 import TimePickerModal from "./TimePickerModel";
+import { color } from "@/app/utils/color";
 
 const TimePicker = ({
   setTimeVisible,
@@ -19,11 +20,14 @@ const TimePicker = ({
         onPress={() => setTimeVisible(true)}
         style={{
           padding: 14,
-          backgroundColor: "#1E1E1E",
+
           borderRadius: 10,
         }}
+        className={`border ${color.CardBgc}`}
       >
-        <Text style={{ color: "#fff" }}>{selectedTime || "Select Time"}</Text>
+        <Text className="text-md " style={{ color: "#fff" }}>
+          {selectedTime || "Select Time"}
+        </Text>
       </TouchableOpacity>
 
       <TimePickerModal

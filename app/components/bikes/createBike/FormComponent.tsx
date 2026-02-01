@@ -17,11 +17,11 @@ const FormComponent: React.FC<FormComponentProps> = ({
 }) => {
   return (
     <View className="flex flex-col w-full  justify-center items-start gap-0  text-white">
-      <Text className="text-lg text-white mb-2">{name}</Text>
+      <Text className="text-md text-white mb-2 font-[500]">{name}</Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
-        className={`w-full h-[3.5rem] text-md px-4 border  ${color.CardBgc} elevation-lg rounded-lg  text-white`}
+        className={`w-full h-[3.5rem] text-md px-4 border text-gray-50 ${color.CardBgc} elevation-lg rounded-lg `}
         placeholder={placeHolder}
         placeholderTextColor="#fff"
       />

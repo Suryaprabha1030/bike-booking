@@ -100,7 +100,7 @@ import { color } from "./utils/color";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import { fetchUserDetails, UpdateUserAndBooking } from "../api/bikeApi";
-import { updateAllUserFields, updateUserField } from "./redux/UserSlice";
+import { updateUserField } from "./redux/UserSlice";
 import { useRoute } from "@react-navigation/native";
 import UploadImage from "./components/bikes/createBike/UploadImage";
 import { fetchadminid } from "./utils/data";
@@ -197,9 +197,11 @@ const AddUserDetail = () => {
   return (
     <SafeAreaView className="flex-1 bg-black">
       {/* HEADER */}
-      <View className={`flex-row items-center px-5 h-[3.5rem] ${color.textbg}`}>
+      <View
+        className={`flex-row items-center px-5 h-[3.5rem] gap-[5rem] ${color.textbg}`}
+      >
         <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={28} color="#000" />
+          <Ionicons name="chevron-back" size={32} color="#000" />
         </TouchableOpacity>
         <Text className="text-black text-2xl ml-3">Add User Details</Text>
       </View>
@@ -228,7 +230,7 @@ const AddUserDetail = () => {
         />
 
         <View>
-          <Text className="text-white text-xl mb-2">Type of Proof</Text>
+          <Text className="text-white text-md">Type of Proof</Text>
           <OptionDropdown
             Data={proofOptions}
             selected={form.proofType}
@@ -255,8 +257,8 @@ const AddUserDetail = () => {
           }}
           className={`rounded-xl ${color.textbg} py-3 mt-6`}
         >
-          <Text className="text-black text-center text-lg font-semibold">
-            {modeData == "update" ? "Update" : "Save"} User Details
+          <Text className="text-black text-center text-lg font-[500]">
+            {modeData === "update" ? "Update" : "Save"} User Details
           </Text>
         </TouchableOpacity>
       </View>

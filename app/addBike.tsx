@@ -98,13 +98,13 @@ const addBike = () => {
   return (
     <SafeAreaView className="flex-1  bg-black flex-col gap-10">
       <View
-        className={` gap-2 flex flex-row py-2 ${color.textbg} items-center px-5 h-[3.5rem]`}
+        className={` gap-[5rem] flex flex-row py-2 ${color.textbg} items-center px-5 h-[3.5rem]`}
       >
         <TouchableOpacity onPress={() => router.back()} className="px-2">
           <Ionicons
-            name={"arrow-back"}
+            name={"chevron-back"}
             color={"#000"}
-            size={30}
+            size={32}
             className="px-2"
           />
         </TouchableOpacity>
@@ -136,8 +136,8 @@ const addBike = () => {
               placeHolder="Rate Per Day"
             />
           </View>
-          <View className="w-1/2 flex gap-2">
-            <Text className="text-white text-xl">Bike Status</Text>
+          <View className="w-1/2 flex ">
+            <Text className="text-white text-md">Bike Status</Text>
             <OptionDropdown
               Data={["available", "maintanance", "booked"]}
               selected={form.bikeStatus}

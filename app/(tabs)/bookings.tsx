@@ -60,6 +60,7 @@ const bookings = () => {
             status={item.booking}
             address={item.drop}
             amount={item.amount}
+            item={item}
             // data={item}
           />
         )}

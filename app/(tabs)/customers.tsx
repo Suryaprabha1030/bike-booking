@@ -1,18 +1,7 @@
-import { View, Text, TextInput, Alert, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
-import UploadImage from "../components/bikes/createBike/UploadImage";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FormComponent from "../components/bikes/createBike/FormComponent";
-import Buttton from "../components/bikes/createBike/Buttton";
-
-import { Ionicons } from "@expo/vector-icons";
-import {
-  BikeAdd,
-  fetchUserBooking,
-  // fetchUserDetails,
-  getFetchUserDetails,
-} from "../../api/bikeApi"; // adjust path
-import { color } from "../utils/color";
+import { getFetchUserDetails } from "../../api/bikeApi"; // adjust path
 import TopBarBikes from "../components/bikes/TopBarBikes";
 import UserCard from "../components/user/UserCard";
 import { fetchadminid } from "../utils/data";
@@ -30,18 +19,17 @@ const customers = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 px-10  bg-black flex-col gap-5">
+    <SafeAreaView className="flex-1   bg-black flex-col gap-5">
       <TopBarBikes name="Customer" />
-      {/* <View className="flex items-center w-[100%]"> */}
+
       <FlatList
         data={data}
-        keyExtractor={(item: any) => item.id}
+        keyExtractor={(item: any) => item._id}
         numColumns={1}
         scrollEnabled={true}
         className="py-5 "
         renderItem={({ item }) => <UserCard data={item} />}
       />
-      {/* </View> */}
     </SafeAreaView>
   );
 };

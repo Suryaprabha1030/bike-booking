@@ -15,11 +15,17 @@ const CommonButton: React.FC<CommonButtonProps> = ({
   return (
     <Pressable
       className={` ${
-        isActive ? "bg-[#D5B60A]" : "bg-[#111]"
+        isActive ? "bg-[#D5B60A] text-black" : "bg-[#111] text-white"
       }  px-3 py-2 rounded-3xl flex justify-center items-center`}
       onPress={clickData}
     >
-      <Text className="text-white text-center font-bold">{name}</Text>
+      <Text
+        className={` ${
+          isActive ? "text-black" : "text-white"
+        } text-center text-md font-bold`}
+      >
+        {name}
+      </Text>
     </Pressable>
   );
 };

@@ -10,9 +10,8 @@ const TopBarBikes = ({ name }) => {
     <View
       className={`flex flex-row elevation-md justify-between ${color.textbg} px-5 items-center py-4`}
     >
-      {" "}
       <Pressable onPress={() => router.back()}>
-        <Ionicons name={"arrow-back-outline"} size={24} color={"#000"} />
+        <Ionicons name={"chevron-back"} size={32} color={"#000"} />
       </Pressable>
       <Text className="text-xl font-bold text-black">{name} Management</Text>
       <Pressable

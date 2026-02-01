@@ -64,7 +64,7 @@ const BikesCard = ({
     <View className="flex flex-col gap-1 rounded-lg elevation-md  bg-[#111]  relative">
       <View className="flex-row gap-2 justify-items-center absolute top-1 left-2 z-10">
         {/* <Ionicons name={""} size={24} color={"#D5B60A"} /> */}
-        <Text className=" text-lg text-black bg-[#d5b60a] rounded-3xl px-3 font-bold ">
+        <Text className=" text-md text-black bg-[#d5b60a] rounded-3xl px-3 font-bold ">
           {bikeStatus}
         </Text>
       </View>
@@ -73,11 +73,6 @@ const BikesCard = ({
         style={{ width: "100%", height: 200 }}
       />
       <View className="flex-row justify-between  px-3 gap-7  py-1">
-        {/* <View className="flex-row gap-2 justify-items-center">
-          <Ionicons name={"location"} size={24} color={"#D5B60A"} />
-          <Text className="text-white text-lg">{location}</Text>
-        </View> */}
-
         <View className="flex-row gap-2 justify-center items-center">
           <Ionicons name={"speedometer-outline"} size={24} color={"#D5B60A"} />
           <Text className="text-white text-lg">{type}</Text>
@@ -88,27 +83,32 @@ const BikesCard = ({
       </View>
       <View className="flex flex-row justify-between px-3 py-1">
         <View className=" flex-col gap-0.2">
-          <Text className="text-white text-lg">Hourly rate</Text>
+          <Text className="text-white text-md">Hourly rate</Text>
           <Text className="text-white text-lg">
             {" "}
             Rs.{(rate / 24).toFixed(0)}
           </Text>
         </View>
         <View className=" flex-col gap-0.2">
-          <Text className="text-white text-lg">Daily rate</Text>
+          <Text className="text-white text-md">Daily rate</Text>
           <Text className="text-white text-lg">Rs.{rate}</Text>
         </View>
         <View className=" flex-col gap-0.2">
-          <Text className="text-white text-lg">Monthly rate</Text>
+          <Text className="text-white text-md">Monthly rate</Text>
           <Text className="text-white text-lg">
             {" "}
             Rs.{(rate * 30).toFixed(0)}
           </Text>
         </View>
       </View>
-      <View className=" flex-row gap-5 justify-center py-2 px-3 ">
+      <View className=" flex-row gap-5 justify-center items-center py-2 px-3 ">
         <Pressable onPress={() => updateData(removeKey)}>
-          <Ionicons name={"create-outline"} size={24} color={"#D5B60A"} />
+          <Ionicons
+            name={"create-outline"}
+            size={24}
+            color={"#D5B60A"}
+            className=""
+          />
         </Pressable>
         {/* <Pressable onPress={() => deleteData(removeKey)}>
           <Ionicons name={"trash-outline"} size={24} color={"#D5B60A"} />
@@ -123,7 +123,7 @@ const BikesCard = ({
             px-4 py-2 rounded-3xl flex justify-center items-center `}
           onPress={() => setShowView(!showView)}
         >
-          <Text className="text-black text-center font-bold">
+          <Text className="text-black text-center text-md font-bold">
             {" "}
             {showView ? "Hide" : "View"} Details
           </Text>
@@ -131,8 +131,8 @@ const BikesCard = ({
       </View>
       {showView && (
         <View className="px-5 flex gap-2 pb-2">
-          <Text className="text-white text-lg font-bold">About</Text>
-          <Text className="text-white text-lg">{about}</Text>
+          <Text className="text-white text-lg font-[500]">About</Text>
+          <Text className="text-white text-sm">{about}</Text>
         </View>
       )}
     </View>

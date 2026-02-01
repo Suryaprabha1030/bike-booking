@@ -1,6 +1,6 @@
 import { color } from "@/app/utils/color";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -43,16 +43,30 @@ export default function OptionDropdown({
       },
     ],
   };
+  const dropdownRef = useRef(null);
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  //       setOpen(false);
+  //     }
+  //   };
+
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [setOpen]);
 
   return (
-    <View className=" w-full ">
+    <View className=" w-full mt-3">
       {/* Button */}
       <TouchableOpacity
         onPress={toggleDropdown}
+        ref={dropdownRef}
         // className="flex-row justify-between items-center rounded-xl  w-full bg-black"
       >
         <View
-          className={` ${color.CardBgcolor} w-full justify-between items-center  rounded-lg flex flex-row px-2  h-[3.5rem]`}
+          className={` ${color.CardBgc} border w-full justify-between items-center  rounded-lg flex flex-row px-2  h-[3.5rem]`}
         >
           <Text className={`text-white text-md  px-5 w-5/6  `}>{selected}</Text>
 

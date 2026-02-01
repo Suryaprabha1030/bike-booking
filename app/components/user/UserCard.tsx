@@ -23,7 +23,7 @@ const UserCard = ({ data }) => {
       }),
     );
   };
-  console.log(data, data);
+
   return (
     <View className="flex w-full justify-center items-center bg-black py-4">
       <View className=" rounded-xl px-3 py-1 w-[90%] bg-black/10 flex gap-3 mx-1 border border-white/10 elevation-md ">
@@ -37,7 +37,6 @@ const UserCard = ({ data }) => {
             <View className="flex flex-col gap-0">
               <Text className="text-white font-bold text-lg">{data.name}</Text>
               <Text className="text-white font-bold text-xs">
-                {" "}
                 {data.name.slice(0, 2)}
                 {data._id.slice(1, 6)}
               </Text>

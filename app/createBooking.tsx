@@ -194,8 +194,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import { updateAllBookingFields, updateField } from "./redux/bookingSlice";
 import CustomDatePicker from "./components/booking/DatePicker";
-
-import TimePickerModal from "./components/booking/TimePicker";
 import TimePicker from "./components/booking/TimePicker";
 import { fetchadminid } from "./utils/data";
 
@@ -218,16 +216,6 @@ const CreateBooking = () => {
   const [timeVisible, setTimeVisible] = useState(false);
   const [selectedTime, setSelectedTime] = useState("9:30 AM");
   const [selectedToTime, setSelectedToTime] = useState("3:30 PM");
-
-  // const [formData, setFormData] = useState({
-  //   user: "",
-  //   bikeType: "Select option",
-  //   drop: "",
-  //   modeOfRental: "Select option",
-  //   modeOfPayment: "Select option",
-  //   duration: "",
-  //   amount: "",
-  // });
 
   // Fetch bikes
   useEffect(() => {
@@ -261,13 +249,6 @@ const CreateBooking = () => {
     loadBikes();
   }, []);
 
-  // useEffect(() => {
-  //   const adminId = await fetchadminid();
-  //   getBikes(fetchAdmin()).then((res: any) => {
-  //     setBikesName(res?.data?.map((d: any) => d.BikeType));
-  //     setBikesData(res?.data);
-  //   });
-  // }, []);
   const onSelectBike = (bikeType: string) => {
     const bike = bikesData.find((b) => b.BikeType === bikeType);
     console.log(bike, "bike");
@@ -288,7 +269,7 @@ const CreateBooking = () => {
     }
   }, [params]);
 
-  const update = (key: keyof typeof formData, value: string) => {
+  const update = (key: any, value: string) => {
     // setFormData((prev) => ({ ...prev, [key]: value }))
     dispatch(updateField({ key, value }));
   };
@@ -300,7 +281,6 @@ const CreateBooking = () => {
         adminId: formData.adminId,
         user: formData.user,
         bikeType: formData.bikeType,
-        // drop: formData.drop,
         modeOfRental: formData.modeOfRental,
         modeOfPayment: formData.modeOfPayment,
         duration: formData.duration,
@@ -346,8 +326,6 @@ const CreateBooking = () => {
       }),
     );
 
-    // 🔴 MANDATORY USER DETAIL CHECK
-    console.log(userDetailAdded, "userDetailAdded");
     if (!userDetailAdded) {
       Alert.alert(
         "User Details Required",
@@ -426,7 +404,7 @@ const CreateBooking = () => {
     }
 
     dispatch(updateField({ key: "amount", value: amount.toString() }));
-  }, [formData.modeOfRental, formData.ratePerDay, dispatch]);
+  }, [formData.modeOfRental, formData.ratePerDay]);
 
   useEffect(() => {
     if (params.mode !== "updateBooking" || !params.id) return;
@@ -450,7 +428,6 @@ const CreateBooking = () => {
             adminId: bookdata.adminId,
             user: bookdata.user,
             bikeType: bookdata.bikeType,
-            // drop: bookdata.drop,
             modeOfRental: bookdata.modeOfRental,
             modeOfPayment: bookdata.modeOfPayment,
             duration: bookdata.duration,
@@ -475,16 +452,20 @@ const CreateBooking = () => {
   return (
     <SafeAreaView className="bg-black flex-1 py-5">
       {/* HEADER */}
-      <View className={`flex-row items-center px-5 h-[3.5rem] ${color.textbg}`}>
+      <View
+        className={`flex-row gap-[5rem] items-center px-5 h-[3.5rem] ${color.textbg}`}
+      >
         <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={28} color="#000" />
+          <Ionicons name="chevron-back" size={32} color="#000" />
         </TouchableOpacity>
-        <Text className="text-black text-2xl ml-3">Create Booking</Text>
+        <Text className="text-black text-2xl ml-3">
+          {params.mode === "addBooking" ? "Create" : "Update"} Booking
+        </Text>
       </View>
 
       {/* BIKE */}
       <View className="px-8 mt-5">
-        <Text className="text-white text-xl">Bike</Text>
+        <Text className="text-white text-md">Bike</Text>
         <OptionDropdown
           Data={bikesName}
           selected={formData.bikeType}
@@ -533,7 +514,7 @@ const CreateBooking = () => {
       {/* DROP */}
       <View className="flex-row px-8 mt-6 gap-2">
         <View className="w-[49%]">
-          <Text className="text-lg text-white mb-2">From</Text>
+          <Text className="text-md text-white mb-2">From</Text>
 
           {formData.modeOfRental === "Hourly" ? (
             <TimePicker
@@ -546,14 +527,14 @@ const CreateBooking = () => {
             <CustomDatePicker
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
-              dataUpdate={(date) => {
+              dataUpdate={(date: any) => {
                 dispatch(updateField({ key: "fromDate", value: date }));
               }}
             />
           )}
         </View>
         <View className="w-[49%]">
-          <Text className="text-lg text-white mb-2">To</Text>
+          <Text className="text-md text-white mb-2">To</Text>
 
           {formData.modeOfRental === "Hourly" ? (
             <TimePicker
@@ -566,7 +547,7 @@ const CreateBooking = () => {
             <CustomDatePicker
               selectedDate={selectedToDate}
               setSelectedDate={setSelectedToDate}
-              dataUpdate={(date) => {
+              dataUpdate={(date: any) => {
                 dispatch(updateField({ key: "toDate", value: date }));
               }}
             />
@@ -576,7 +557,7 @@ const CreateBooking = () => {
 
       {/* RENTAL MODE */}
       <View className="px-8 mt-6">
-        <Text className="text-white text-xl">Mode of Rental</Text>
+        <Text className="text-white text-md">Mode of Rental</Text>
         <OptionDropdown
           Data={["Hourly", "Daily", "monthly"]}
           selected={formData.modeOfRental}
@@ -594,8 +575,8 @@ const CreateBooking = () => {
             onChangeText={(v) => update("amountPaid", v)}
           />
         </View>
-        <View className="px-8 mt-6 w-[49%]">
-          <Text className="text-white text-xl">Mode of Payment</Text>
+        <View className="px-8  w-[49%]">
+          <Text className="text-white text-md">Mode of Payment</Text>
           <OptionDropdown
             Data={["Cash", "UPI", "Card"]}
             selected={formData.modeOfPayment}
@@ -632,7 +613,6 @@ const CreateBooking = () => {
                 updateField({ key: "amount", value: amount.toString() }),
               );
             }}
-            // keyboardType="numeric"
           />
           {/* /> */}
         </View>

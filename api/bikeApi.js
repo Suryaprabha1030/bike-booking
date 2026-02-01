@@ -2,7 +2,7 @@ import axios from "axios";
 //  192.168.68.203
 // 192.168.68.170
 const API = axios.create({
-  baseURL: "http://192.168.1.11:5000/api", // 🔁 change IP
+  baseURL: "http://192.168.68.166:5000/api", // 🔁 change IP
   headers: {
     "Content-Type": "application/json",
   },

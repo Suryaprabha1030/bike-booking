@@ -13,7 +13,9 @@ import FormComponent from "../components/bikes/createBike/FormComponent";
 import { createAdmin } from "@/api/bikeApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import { Image } from "expo-image";
 // import API from "../api/api";
+import logo from "../../assets/images/admin.svg";
 
 export default function AdminSignup() {
   const [form, setForm] = useState({
@@ -49,21 +51,25 @@ export default function AdminSignup() {
   };
 
   return (
-    <SafeAreaView className="bg-black gap-5 flex-1 items-center ">
-      <Text className={`text-3xl ${color.textColor2} font-[700] `}>SignuP</Text>
-      <Text className={`text-2xl ${color.textColor2} `}>
-        Create your admin account
-      </Text>
-      <Text className={`text-2xl ${color.textColor2} `}>
-        Securely register for adminstrative service
-      </Text>
-      <View className="w-3/4 ">
+    <SafeAreaView className="bg-black gap-5 flex-1 items-center justify-center">
+      <View className="flex flex-col gap-2 items-center W-3/4">
+        <Image source={logo} style={{ width: 40, height: 40 }} />
+        <View className="flex flex-col gap-0.2 items-center">
+          <Text className={`text-3xl ${color.textColor2} font-[600] `}>
+            Create Your Admin Account
+          </Text>
+          <Text className={`text-md ${color.textColor2} `}>
+            Securely register for adminstrative service
+          </Text>
+        </View>
+      </View>
+      <View className="w-3/4 py-5 gap-5">
         <View className="w-full">
           <FormComponent
             name="Email"
             value={form.email}
             onChangeText={(v) => update("email", v)}
-            placeHolder="Add Location"
+            placeHolder="Enter your email address"
           />
         </View>
         <View className="w-full">
@@ -71,15 +77,23 @@ export default function AdminSignup() {
             name="Name"
             value={form.name}
             onChangeText={(v) => update("name", v)}
-            placeHolder="Add Location"
+            placeHolder="Enter your name"
           />
         </View>
         <View className="w-full">
           <FormComponent
-            name="Password"
+            name="Create your password"
             value={form.password}
             onChangeText={(v) => update("password", v)}
-            placeHolder="Add Location"
+            placeHolder="Create your password"
+          />
+        </View>
+        <View className="w-full">
+          <FormComponent
+            name="Confirm your password"
+            value={form.password}
+            onChangeText={(v) => update("password", v)}
+            placeHolder="Confirm your password"
           />
         </View>
         {/* <View className="w-full">
@@ -91,7 +105,7 @@ export default function AdminSignup() {
             className={`w-full h-[3rem] text-lg text-center text-black ${color.textbg} flex justify-center items-center rounded-lg`}
             onPress={handleSignup}
           >
-            <Text className="text-black text-center text-xl">
+            <Text className="text-black text-center text-lg font-[500]">
               {" "}
               Create Account
             </Text>
@@ -102,8 +116,11 @@ export default function AdminSignup() {
             router.push("/auth/signup");
           }}
         >
-          <Text className={`text-2xl ${color.textColor2} `}>
-            already have an account ? do login
+          <Text
+            className={`text-md w-full text-center ${color.textColor2} pt-3 `}
+          >
+            <Text className="text-white">already have an account ? </Text>
+            Login
           </Text>
         </Pressable>
       </View>

@@ -115,12 +115,13 @@ const DarkApexAnalyticsChart = () => {
   `;
 
   return (
-    <ScrollView style={{ flex: 1, marginTop: 20 }}>
+    <ScrollView style={{ flex: 1, marginTop: 20 }} className="bg-black px-5">
       {/* Toggle Buttons */}
       <View
+        className=""
         style={{
           flexDirection: "row",
-          justifyContent: "center",
+          justifyContent: "start",
           marginBottom: 15,
         }}
       >
@@ -143,7 +144,7 @@ const DarkApexAnalyticsChart = () => {
           >
             <Text
               style={{
-                color: t === type ? "#fff" : "#ccc",
+                color: t === type ? "#000" : "#ccc",
                 fontWeight: "bold",
               }}
             >
@@ -156,7 +157,7 @@ const DarkApexAnalyticsChart = () => {
       <WebView
         originWhitelist={["*"]}
         source={{ html: chartHTML }}
-        style={{ height: 450, width: screenWidth }}
+        style={{ height: 450, width: screenWidth, backgroundColor: "#000" }}
         javaScriptEnabled={true}
         scalesPageToFit={true}
       />

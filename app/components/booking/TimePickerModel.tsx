@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#fff",
-    fontSize: 18,
+    // fontSize: 18,
     textAlign: "center",
     marginBottom: 22,
   },
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   value: {
     color: "#fff",
-    fontSize: 36,
+    fontSize: 24,
     fontWeight: "700",
     marginVertical: 8,
   },
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   segmentText: {
     color: "#888",
     textAlign: "center",
-    fontSize: 16,
+    // fontSize: 16,
   },
   segmentTextActive: {
     color: "#000",
@@ -83,11 +83,11 @@ const styles = StyleSheet.create({
   },
   cancel: {
     color: "#777",
-    fontSize: 16,
+    // fontSize: 16,
   },
   confirm: {
     color: color.primary,
-    fontSize: 16,
+    // fontSize: 16,
     fontWeight: "600",
   },
 });
@@ -116,7 +116,9 @@ export default function TimePickerModal({ visible, onClose, onConfirm }: any) {
     >
       <View style={styles.overlay}>
         <View style={styles.container}>
-          <Text style={styles.title}>Select Time</Text>
+          <Text style={styles.title} className="text-md">
+            Select Time
+          </Text>
 
           {/* Time spinner */}
           <View style={styles.spinnerRow}>
@@ -132,7 +134,9 @@ export default function TimePickerModal({ visible, onClose, onConfirm }: any) {
                 onPressOut={() => release(hourInterval)}
                 style={styles.circleBtn}
               >
-                <Text style={styles.icon}>＋</Text>
+                <Text style={styles.icon} className="text-md">
+                  ＋
+                </Text>
               </TouchableOpacity>
 
               <Text style={styles.value}>
@@ -149,11 +153,15 @@ export default function TimePickerModal({ visible, onClose, onConfirm }: any) {
                 onPressOut={() => release(hourInterval)}
                 style={styles.circleBtn}
               >
-                <Text style={styles.icon}>－</Text>
+                <Text style={styles.icon} className="text-md">
+                  －
+                </Text>
               </TouchableOpacity>
             </View>
 
-            <Text style={styles.colon}>:</Text>
+            <Text style={styles.colon} className="text-md">
+              :
+            </Text>
 
             {/* Minute */}
             <View style={styles.spinner}>
@@ -167,10 +175,12 @@ export default function TimePickerModal({ visible, onClose, onConfirm }: any) {
                 onPressOut={() => release(minuteInterval)}
                 style={styles.circleBtn}
               >
-                <Text style={styles.icon}>＋</Text>
+                <Text style={styles.icon} className="text-md">
+                  ＋
+                </Text>
               </TouchableOpacity>
 
-              <Text style={styles.value}>
+              <Text style={styles.value} className="text-md">
                 {minute.toString().padStart(2, "0")}
               </Text>
 
@@ -184,7 +194,9 @@ export default function TimePickerModal({ visible, onClose, onConfirm }: any) {
                 onPressOut={() => release(minuteInterval)}
                 style={styles.circleBtn}
               >
-                <Text style={styles.icon}>－</Text>
+                <Text style={styles.icon} className="text-md">
+                  －
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -202,6 +214,7 @@ export default function TimePickerModal({ visible, onClose, onConfirm }: any) {
                     styles.segmentText,
                     ampm === v && styles.segmentTextActive,
                   ]}
+                  className="text-md"
                 >
                   {v}
                 </Text>
@@ -212,7 +225,9 @@ export default function TimePickerModal({ visible, onClose, onConfirm }: any) {
           {/* Actions */}
           <View style={styles.actions}>
             <TouchableOpacity onPress={onClose}>
-              <Text style={styles.cancel}>Cancel</Text>
+              <Text style={styles.cancel} className="text-md">
+                Cancel
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -224,7 +239,9 @@ export default function TimePickerModal({ visible, onClose, onConfirm }: any) {
                 )
               }
             >
-              <Text style={styles.confirm}>Confirm</Text>
+              <Text style={styles.confirm} className="text-md">
+                Confirm
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
